@@ -20,49 +20,49 @@ router.post("/api/users/", async (req, res) => {
     console.log("user in DB?: ", isUserInDB);
 
     if (req.body.firstName === null) {
-      return res.status(400).json({
+      return res.json({
         status: 400,
         errorMessage: "First name required.",
       });
     }
 
     if (req.body.lastName === null) {
-      return res.status(400).json({
+      return res.json({
         status: 400,
         errorMessage: "Last name required.",
       });
     }
 
     if (req.body.leagueRank === null) {
-      return res.status(400).json({
+      return res.json({
         status: 400,
         errorMessage: "Rank required",
       });
     }
 
     if (!req.body.email.includes("@")) {
-      return res.status(400).json({
+      return res.json({
         status: 400,
         errorMessage: "Invalid email",
       });
     }
 
     if (isUserInDB && req.body.email !== null) {
-      return res.status(400).json({
+      return res.json({
         status: 400,
         errorMessage: "Email Taken",
       });
     }
 
     if (req.body.password === null || req.body.password.length < 6) {
-      return res.status(400).json({
+      return res.json({
         status: 400,
         errorMessage: "Invalid password, must include at least 6 characters",
       });
     }
 
     if (req.body.password !== req.body.password_confirm) {
-      return res.status(400).json({
+      return res.json({
         status: 400,
         errorMessage: "Password don't match",
       });
