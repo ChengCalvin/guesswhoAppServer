@@ -1,8 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const mongoose = require("mongoose");
 require("dotenv").config();
-const uri = process.env.ATLAS_URI;
 
 const User = require("../../models/userModel");
 
@@ -20,49 +18,56 @@ router.post("/api/users/", async (req, res) => {
     console.log("user in DB?: ", isUserInDB);
 
     if (req.body.firstName === null) {
-      return res.status(400).send({
+      console.log("error first name");
+      return res.status(400).json({
         status: 400,
         errorMessage: "First name required.",
       });
     }
 
     if (req.body.lastName === null) {
-      return res.status(400).send({
+      console.log("error last name");
+      return res.status(400).json({
         status: 400,
         errorMessage: "Last name required.",
       });
     }
 
     if (req.body.leagueRank === null) {
-      return res.status(400).send({
+      console.log("error league rank");
+      return res.status(400).json({
         status: 400,
         errorMessage: "Rank required",
       });
     }
 
     if (!req.body.email.includes("@")) {
-      return res.status(400).send({
+      console.log("error email invalid");
+      return res.status(400).json({
         status: 400,
         errorMessage: "Invalid email",
       });
     }
 
     if (isUserInDB && req.body.email !== null) {
-      return res.status(400).send({
+      console.log("error email exists");
+      return res.status(400).json({
         status: 400,
         errorMessage: "Email Taken",
       });
     }
 
     if (req.body.password === null || req.body.password.length < 6) {
-      return res.status(400).send({
+      console.log("error password < 6");
+      return res.status(400).json({
         status: 400,
         errorMessage: "Invalid password, must include at least 6 characters",
       });
     }
 
     if (req.body.password !== req.body.password_confirm) {
-      return res.status(400).send({
+      console.log("error password dont match");
+      return res.status(400).json({
         status: 400,
         errorMessage: "Password don't match",
       });
@@ -77,19 +82,16 @@ router.post("/api/users/", async (req, res) => {
       req.body.password === req.body.password_confirm;
 
     if (validUser) {
-      newUser
-        .save()
-        .then(() => {
-          res.status(200).send({
-            status: 200,
-            success: true,
-            user: newUser,
-          });
-        })
-        .catch((error) => console.log("save error", error));
+      newUser.save().then(() => {
+        res.status(200).json({
+          status: 200,
+          success: true,
+          user: newUser,
+        });
+      });
     }
   } catch (error) {
-    res.status(500).send({ status: 500, errorMessage: error.errorMessage });
+    res.status(500).json({ status: 500, errorMessage: error.errorMessage });
   }
 });
 
