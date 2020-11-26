@@ -27,25 +27,29 @@ router.post("/api/users", async (req, res) => {
   console.log("test result yes?: ", isUserInDB);
 
   if (req.body.firstName === null) {
-    return res.json({
+    return res.status(404).json({
+      status: 404,
       errorMessage: "First name required.",
     });
   }
 
   if (req.body.lastName === null) {
-    return res.json({
+    return res.status(404).json({
+      status: 404,
       errorMessage: "Last name required.",
     });
   }
 
   if (req.body.leagueRank === null) {
-    return res.json({
+    return res.status(404).json({
+      status: 404,
       errorMessage: "Rank required",
     });
   }
 
   if (!req.body.email.includes("@")) {
-    return res.json({
+    return res.status(404).json({
+      status: 404,
       errorMessage: "Invalid email",
     });
   }
@@ -58,13 +62,15 @@ router.post("/api/users", async (req, res) => {
   }
 
   if (req.body.password === null || req.body.password.length < 6) {
-    return res.json({
+    return res.status(404).json({
+      status: 404,
       errorMessage: "Invalid password, must include at least 6 characters",
     });
   }
 
   if (req.body.password !== req.body.password_confirm) {
-    return res.json({
+    return res.status(404).json({
+      status: 404,
       errorMessage: "Password don't match",
     });
   }
@@ -81,7 +87,10 @@ router.post("/api/users", async (req, res) => {
     newUser
       .save()
       .then(() => {
-        res.json({ success: true });
+        res.status(200).json({
+          status: 200,
+          success: true,
+        });
       })
       .catch((error) => console.log(error));
   }
