@@ -90,6 +90,7 @@ router.post("/api/users", async (req, res) => {
         res.status(200).json({
           status: 200,
           success: true,
+          user: newUser,
         });
       })
       .catch((error) => console.log(error));
