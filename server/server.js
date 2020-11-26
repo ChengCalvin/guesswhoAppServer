@@ -1,6 +1,8 @@
 const express = require("express");
 const cors = require("cors");
-const mongoose = require("mongoose"); // help connect everything to mongodb
+const mongoose = require("mongoose");
+
+const userRoute = require("./routes/api/users");
 
 require("dotenv").config();
 const app = express();
@@ -8,6 +10,8 @@ const port = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(express.json());
+
+app.post("/api/users", userRoute);
 
 const uri = process.env.ATLAS_URI;
 
@@ -34,10 +38,8 @@ let gameSchema = new mongoose.Schema(
 );
 let Game = mongoose.model("Game", gameSchema, "game");
 
-//query the database,get object
-//next step get random data
-app.get("/gamedata", (req, res) => {
-  Game.find({}, function (err, Game) {
+app.get("/gamedata", (_req, res) => {
+  Game.find({}, function (err, _Game) {
     console.log(err);
   }).then((result) => {
     if (result.length != 0) {
