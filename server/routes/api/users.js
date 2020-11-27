@@ -64,24 +64,14 @@ router.post("/api/users/", async (req, res) => {
         errorMessage: "Password don't match",
       });
     }
-    const validUser =
-      req.body.firstName !== null &&
-      req.body.lastName !== null &&
-      req.body.leagueRank !== null &&
-      req.body.email.includes("@") &&
-      !isUserInDB &&
-      req.body.password !== null &&
-      req.body.password === req.body.password_confirm;
 
-    if (validUser) {
-      newUser.save().then(() => {
-        res.status(200).json({
-          status: 200,
-          success: true,
-          user: newUser,
-        });
+    newUser.save().then(() => {
+      res.status(200).json({
+        status: 200,
+        success: true,
+        user: newUser,
       });
-    }
+    });
   } catch (error) {
     res.status(500).json({ status: 500, errorMessage: error.errorMessage });
   }
