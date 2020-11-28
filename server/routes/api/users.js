@@ -79,10 +79,7 @@ router.post("/api/users/", async (req, res) => {
 
 router.get("/users/:email", (req, res) => {
   User.findOne({ email: req.params.email }, (_error, loginUser) => {
-    if (
-      req.body.email === loginUser.email &&
-      req.body.password === loginUser.password
-    ) {
+    if (loginUser) {
       res.status(200).json({ status: 200, loginUser });
     } else {
       res
