@@ -77,17 +77,12 @@ router.post("/api/users/", async (req, res) => {
   }
 });
 
-router.get("/users", (req, res) => {
-  User.findOne({ email: req.body.email }, (_error, loginUser) => {
-    if (
-      req.body.email === loginUser.email &&
-      req.body.password === loginUser.password
-    ) {
-      res.status(200).json({ status: 200, loginUser });
+router.get("/users/:email", (req, res) => {
+  User.findOne({ email: req.params.email }, (_error, loginUser) => {
+    if (loginUser && loginUser.email === req.params.email) {
+      res.status(200).json({ loginUser });
     } else {
-      res
-        .status(400)
-        .json({ status: 400, errorMessage: "Invalid email or password" });
+      res.status(400).json({ errorMessage: "Invalid email or password" });
     }
   });
 });

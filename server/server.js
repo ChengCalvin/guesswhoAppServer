@@ -12,7 +12,7 @@ app.use(cors());
 app.use(express.json());
 
 app.post("/api/users", userRoute);
-app.get("/users", userRoute);
+app.get("/users/:email", userRoute);
 
 const uri = process.env.ATLAS_URI;
 
