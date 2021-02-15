@@ -78,7 +78,7 @@ router.post("/api/users/", async (req, res) => {
   }
 });
 
-router.patch("/api/users/:email", (req, res) => {
+router.patch("/api/users/:email", (req, _res) => {
   User.findOneAndUpdate(
     { email: req.body.email },
     { $set: { gameScore: req.body.gameScore } },
