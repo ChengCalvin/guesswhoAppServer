@@ -12,6 +12,7 @@ router.post("/api/users/", async (req, res) => {
     email: req.body.email,
     password: req.body.password,
     password_confirm: req.body.password_confirm,
+    gameScore: req.body.gameScore,
   });
   try {
     const isUserInDB = await User.exists({ "user.email": req.body.email });
@@ -75,6 +76,18 @@ router.post("/api/users/", async (req, res) => {
   } catch (error) {
     res.status(500).json({ status: 500, errorMessage: error.errorMessage });
   }
+});
+
+router.patch("/api/users/:email", (req, res) => {
+  User.findOneAndUpdate(
+    { email: req.body.email },
+    { $set: { gameScore: req.body.gameScore } },
+    { upsert: true },
+    (err, results) => {
+      if (err) console.log(err);
+      else console.log(results);
+    }
+  );
 });
 
 router.get("/users/:email", (req, res) => {
