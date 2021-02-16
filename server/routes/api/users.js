@@ -16,7 +16,6 @@ router.post("/api/users/", async (req, res) => {
   });
   try {
     const isUserInDB = await User.exists({ "user.email": req.body.email });
-
     if (req.body.firstName === null) {
       return res.status(400).json({
         status: 400,
