@@ -94,7 +94,7 @@ router.get("/users/:email", (req, res) => {
     if (loginUser && loginUser.email === req.params.email) {
       res.status(200).json({ loginUser });
     } else {
-      res.status(400).json({ errorMessage: "Invalid email or password" });
+      res.status(401).json({ errorMessage: "Invalid email or password" });
     }
   });
 });
